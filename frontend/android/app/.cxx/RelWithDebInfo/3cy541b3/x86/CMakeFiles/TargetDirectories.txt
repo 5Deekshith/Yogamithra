@@ -1,0 +1,2 @@
+/Users/deekshithsy/Desktop/Yoga_Mithra_Application/android/app/.cxx/RelWithDebInfo/3cy541b3/x86/CMakeFiles/edit_cache.dir
+/Users/deekshithsy/Desktop/Yoga_Mithra_Application/android/app/.cxx/RelWithDebInfo/3cy541b3/x86/CMakeFiles/rebuild_cache.dir

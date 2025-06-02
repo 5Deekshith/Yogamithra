@@ -1,0 +1,55 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+android {
+    namespace = "com.example.yoga_mithra"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
+    ndkVersion "29.0.13113456"
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17  // Changed from 21 to 17
+        targetCompatibility JavaVersion.VERSION_17  // Changed from 21 to 17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"  // Changed from "1.8" to "17"
+    }
+
+    defaultConfig {
+        applicationId = "com.example.yoga_mithra"
+        minSdk = flutter.minSdkVersion
+        targetSdk = flutter.targetSdkVersion
+        versionCode = 1
+        versionName = "1.0"
+    }
+
+    signingConfigs {
+        release {
+            keyAlias 'your-key-alias'
+            keyPassword 'your-key-password'
+            storeFile file('path/to/your/keystore.jks')
+            storePassword 'your-store-password'
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+}
+
+dependencies {
+    implementation "androidx.core:core-ktx:1.12.0"
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.fragment:fragment:1.7.1"
+}
+
+flutter {
+    source = "../.."
+}

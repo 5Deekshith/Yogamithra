@@ -1,0 +1,4 @@
+com/tundralabs/fluttertts/FlutterTtsPlugin$Companion.class
+com/tundralabs/fluttertts/FlutterTtsPlugin$utteranceProgressListener$1.class
+com/tundralabs/fluttertts/FlutterTtsPlugin.class
+com/tundralabs/fluttertts/R.class

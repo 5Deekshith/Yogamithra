@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pose Comparison</title>
+</head>
+<body>
+    <h1>Pose Comparison</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="model_name">Model Name:</label>
+        <input type="text" id="model_name" name="model_name" required><br><br>
+        <label for="file">Upload Image:</label>
+        <input type="file" id="file" name="file" accept="image/*" required><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="result">
+        <!-- Results will be displayed here -->
+    </div>
+
+    <script>
+        // Function to handle form submission
+        document.querySelector('form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(this);
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const responseData = await response.json();
+
+            // Display results
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<p>Match Percentage: ${responseData.match_percentage.toFixed(2)}%</p>
+                                   <img src="data:image/jpeg;base64,${responseData.image}" alt="Annotated Image" style="max-width: 100%;">`;
+        });
+    </script>
+</body>
+</html>

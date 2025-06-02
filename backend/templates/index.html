@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pose Angle Comparison</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"], input[type="file"] {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload Pose Image</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="pose_name">Pose Name:</label>
+        <input type="text" id="pose_name" name="pose_name" required>
+        
+        <label for="file">Choose an image:</label>
+        <input type="file" id="file" name="file" accept="image/*" required>
+        
+        <button type="submit">Upload</button>
+    </form>
+
+    <div class="result" id="result">
+        <!-- Result will be displayed here -->
+    </div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: formData
+            });
+
+            const result = await response.json();
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+
+            if (response.ok) {
+                const image = document.createElement('img');
+                image.src = `/uploads/${result.image_path}`;
+                resultDiv.appendChild(image);
+
+                const info = document.createElement('div');
+                info.innerHTML = `<p>Match Percentage: ${result.match_percentage.toFixed(2)}%</p>`;
+                
+                if (result.mismatches && Object.keys(result.mismatches).length > 0) {
+                    info.innerHTML += '<p>Mismatched Angles:</p>';
+                    const mismatchList = document.createElement('ul');
+                    for (const [angle, values] of Object.entries(result.mismatches)) {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `${angle}: Model Angle - ${values.model.toFixed(2)}, New Image Angle - ${values.new_image.toFixed(2)}`;
+                        mismatchList.appendChild(listItem);
+                    }
+                    info.appendChild(mismatchList);
+                }
+
+                resultDiv.appendChild(info);
+            } else {
+                const error = document.createElement('div');
+                error.innerHTML = `<p>Error: ${result.error}</p>`;
+                resultDiv.appendChild(error);
+            }
+        });
+    </script>
+</body>
+</html>
